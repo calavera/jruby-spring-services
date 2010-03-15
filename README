@@ -1,13 +1,15 @@
 JrubySpringServices
 ===================
 
-Introduction goes here.
+Rails plugin to load spring services in a Rails friendly way.
 
 
 Example
 =======
 
-Example goes here.
+class FooController < ActionController::Base
+  include_spring_bean :foo
+end
 
 
 Copyright (c) 2009 [name of plugin creator], released under the MIT license

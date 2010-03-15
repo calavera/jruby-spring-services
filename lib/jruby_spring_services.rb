@@ -11,7 +11,7 @@ module JrubySpringServices
 
     def spring_context
       @spring_context ||= begin
-        if Rails.env == 'test'
+        if Rails.env.test?
           ClassPathXmlApplicationContext.new(context_file || "applicationContext.xml")
         else
           WebApplicationContextUtils.getWebApplicationContext($servlet_context)
@@ -28,7 +28,9 @@ module JrubySpringServices
 
       bean_names.to_a.each do |bean_name|
         define_method bean_name do
-          @bean ||= bean(bean_name)
+          var_name = :"@#{bean_name}"
+          instance_variable_defined?(var_name) ? instance_variable_get(var_name) :
+            instance_variable_set(var_name, bean(bean_name))
         end
       end
     end
